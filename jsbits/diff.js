@@ -137,7 +137,7 @@ function diffChildren (cs, ns, parent) {
 }
 
 function createElement (obj) {
-    obj.domRef = obj.ns === "svg"
+    obj.domRef = obj['ns'] === "svg"
 	? document.createElementNS("http://www.w3.org/2000/svg", obj.tag)
 	: document.createElement(obj.tag);
     populate (null, obj);
@@ -252,7 +252,11 @@ function syncChildren (os, ns, parent) {
 		foundKey, last = -1, moved = false, newNodeIndex, removedNodes = 0;
 	    /* Create array with length of new children list */
 	    /* -1 means a new node should be inserted */
-	    for (i = nLen; i > 0; i--) P.append(-1);
+	    var i = nLen;
+	    while (i > 0) {
+              P[i] = -1;
+	      i--;
+	    }
 	    /* Create index I that maps keys with node positions of the remaining nodes from the new children */
 	    for (i = newFirstIndex; i <= newLastIndex; i++) I[ns[i].key] = i;
 	    /* Iterate over old nodes with Index, check if we can find node with same key in index */
